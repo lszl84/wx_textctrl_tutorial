@@ -14,6 +14,8 @@ public:
 private:
     void SetupMenuBar();
     void SetupForm();
+
+    wxTextCtrl *userNameField, *emailField;
 };
 
 wxIMPLEMENT_APP(MyApp);
@@ -58,4 +60,18 @@ void MyFrame::SetupMenuBar()
 
 void MyFrame::SetupForm()
 {
+    auto sizer = new wxBoxSizer(wxVERTICAL);
+
+    auto nameLabel = new wxStaticText(this, wxID_ANY, "Full Name:");
+    userNameField = new wxTextCtrl(this, wxID_ANY);
+
+    auto emailLabel = new wxStaticText(this, wxID_ANY, "Email:");
+    emailField = new wxTextCtrl(this, wxID_ANY);
+
+    sizer->Add(nameLabel);
+    sizer->Add(userNameField);
+    sizer->Add(emailLabel);
+    sizer->Add(emailField);
+
+    this->SetSizer(sizer);
 }

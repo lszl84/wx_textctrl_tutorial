@@ -131,6 +131,10 @@ void MyFrame::SetupForm()
     submitButton->Bind(wxEVT_BUTTON, &MyFrame::OnSubmit, this);
 
     userNameField->SetValidator(wxTextValidator(wxFILTER_NONE, &name));
+    emailField->SetValidator(wxTextValidator(wxFILTER_NONE, &email));
+    passwordField->SetValidator(wxTextValidator(wxFILTER_NONE, &password));
+    passwordRepeatField->SetValidator(wxTextValidator(wxFILTER_NONE));
+    notesField->SetValidator(wxTextValidator(wxFILTER_NONE, &notes));
 
     name = "John Doe";
     TransferDataToWindow();
@@ -139,5 +143,20 @@ void MyFrame::SetupForm()
 void MyFrame::OnSubmit(wxCommandEvent &e)
 {
     TransferDataFromWindow();
-    std::cout << name << std::endl;
+
+    if (name.Length() == 0 || email.Length() == 0 || password.Length() == 0)
+    {
+        wxMessageBox("Please fill in the empty fields.", "Error", wxICON_ERROR);
+    }
+    else if (!Validate())
+    {
+        wxMessageBox("There were errors. Check the form and try again.", "Error", wxICON_ERROR);
+    }
+    else
+    {
+        std::cout << name << std::endl
+                  << email << std::endl
+                  << password << std::endl
+                  << notes << std::endl;
+    }
 }

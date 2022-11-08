@@ -17,9 +17,11 @@ private:
     void SetupMenuBar();
     void SetupForm();
 
-    wxTextCtrl *userNameField, *emailField;
+    wxTextCtrl *userNameField, *emailField, *passwordField, *passwordRepeatField, *notesField;
 
-    wxString name;
+    wxStaticText *passwordHint, *passwordRepeatHint;
+
+    wxString name, email, password, notes;
 
     void OnSubmit(wxCommandEvent &);
 };
@@ -72,11 +74,30 @@ void MyFrame::SetupForm()
     auto panel = new wxPanel(this);
     auto panelSizer = new wxBoxSizer(wxVERTICAL);
 
+    // fix for Windows
+    SetBackgroundColour(panel->GetBackgroundColour());
+
     auto nameLabel = new wxStaticText(panel, wxID_ANY, "Full Name:");
     userNameField = new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, wxSize(FromDIP(300), wxDefaultSize.GetHeight()));
 
     auto emailLabel = new wxStaticText(panel, wxID_ANY, "Email:");
     emailField = new wxTextCtrl(panel, wxID_ANY);
+
+    auto passwordLabel = new wxStaticText(panel, wxID_ANY, "Password:");
+    passwordField = new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
+
+    passwordHint = new wxStaticText(panel, wxID_ANY, "Password must contain letters and numbers.");
+    passwordHint->SetFont(wxFont(wxNORMAL_FONT->GetPointSize() - 2, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
+
+    auto passwordRepeatLabel = new wxStaticText(panel, wxID_ANY, "Repeat Password:");
+    passwordRepeatField = new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
+
+    passwordRepeatHint = new wxStaticText(panel, wxID_ANY, "");
+    passwordRepeatHint->SetFont(passwordHint->GetFont());
+
+    auto notesLabel = new wxStaticText(panel, wxID_ANY, "How did you learn about us?");
+    notesField = new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition,
+                                wxSize(wxDefaultSize.GetWidth(), FromDIP(150)), wxTE_MULTILINE);
 
     auto submitButton = new wxButton(panel, wxID_ANY, "Submit");
 
@@ -85,6 +106,14 @@ void MyFrame::SetupForm()
         userNameField,
         emailLabel,
         emailField,
+        passwordLabel,
+        passwordField,
+        passwordHint,
+        passwordRepeatLabel,
+        passwordRepeatField,
+        passwordRepeatHint,
+        notesLabel,
+        notesField,
         submitButton};
 
     for (auto item : formItems)

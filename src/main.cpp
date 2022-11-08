@@ -1,5 +1,6 @@
 #include <wx/wx.h>
 #include <vector>
+#include <iostream>
 
 class MyApp : public wxApp
 {
@@ -90,4 +91,7 @@ void MyFrame::SetupForm()
     sizer->Add(centeringSizer, 1, wxEXPAND);
 
     SetSizerAndFit(sizer);
+
+    userNameField->Bind(wxEVT_TEXT, [this](wxCommandEvent &e)
+                        { std::cout << "[wxEVT_TEXT] Name Text: " << e.GetString() << std::endl; });
 }

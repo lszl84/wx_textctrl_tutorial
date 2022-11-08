@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <vector>
 
 class MyApp : public wxApp
 {
@@ -61,17 +62,32 @@ void MyFrame::SetupMenuBar()
 void MyFrame::SetupForm()
 {
     auto sizer = new wxBoxSizer(wxVERTICAL);
+    auto centeringSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    auto nameLabel = new wxStaticText(this, wxID_ANY, "Full Name:");
-    userNameField = new wxTextCtrl(this, wxID_ANY);
+    auto panel = new wxPanel(this);
+    auto panelSizer = new wxBoxSizer(wxVERTICAL);
 
-    auto emailLabel = new wxStaticText(this, wxID_ANY, "Email:");
-    emailField = new wxTextCtrl(this, wxID_ANY);
+    auto nameLabel = new wxStaticText(panel, wxID_ANY, "Full Name:");
+    userNameField = new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, wxSize(FromDIP(300), wxDefaultSize.GetHeight()));
 
-    sizer->Add(nameLabel);
-    sizer->Add(userNameField);
-    sizer->Add(emailLabel);
-    sizer->Add(emailField);
+    auto emailLabel = new wxStaticText(panel, wxID_ANY, "Email:");
+    emailField = new wxTextCtrl(panel, wxID_ANY);
 
-    this->SetSizer(sizer);
+    std::vector<wxWindow *> formItems{
+        nameLabel,
+        userNameField,
+        emailLabel,
+        emailField};
+
+    for (auto item : formItems)
+    {
+        panelSizer->Add(item, 0, wxEXPAND | wxALL, FromDIP(3));
+    }
+
+    panel->SetSizerAndFit(panelSizer);
+
+    centeringSizer->Add(panel, 1, wxALIGN_CENTER | wxALL, FromDIP(10));
+    sizer->Add(centeringSizer, 1, wxEXPAND);
+
+    SetSizerAndFit(sizer);
 }

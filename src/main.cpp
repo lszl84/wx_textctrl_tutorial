@@ -94,4 +94,26 @@ void MyFrame::SetupForm()
 
     userNameField->Bind(wxEVT_TEXT, [this](wxCommandEvent &e)
                         { std::cout << "[wxEVT_TEXT] Name Text: " << e.GetString() << std::endl; });
+
+    userNameField->Bind(wxEVT_CHAR, [this](wxKeyEvent &e)
+                        {
+                            int code = e.GetKeyCode();
+                            bool isLeft = e.GetKeyCode() == WXK_LEFT;
+                            bool hasAlt = e.AltDown();
+
+                            std::cout << "[wxEVT_CHAR] Code = " << code << ". Alt? " << hasAlt << ", Left? " << isLeft
+                                      << ". Unicode : 0x" << std::hex << e.GetUnicodeKey() << std::dec << std::endl;
+
+                            e.Skip(); });
+
+    userNameField->Bind(wxEVT_KEY_DOWN, [this](wxKeyEvent &e)
+                        {
+                            int code = e.GetKeyCode();
+                            bool isLeft = e.GetKeyCode() == WXK_LEFT;
+                            bool hasAlt = e.AltDown();
+
+                            std::cout << "[wxEVT_KEY_DOWN] Code = " << code << ". Alt? " << hasAlt << ", Left? " << isLeft
+                                      << ". Unicode : 0x" << std::hex << e.GetUnicodeKey() << std::dec << std::endl;
+
+                            e.Skip(); });
 }

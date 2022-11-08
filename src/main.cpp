@@ -18,6 +18,10 @@ private:
     void SetupForm();
 
     wxTextCtrl *userNameField, *emailField;
+
+    wxString name;
+
+    void OnSubmit(wxCommandEvent &);
 };
 
 wxIMPLEMENT_APP(MyApp);
@@ -74,11 +78,14 @@ void MyFrame::SetupForm()
     auto emailLabel = new wxStaticText(panel, wxID_ANY, "Email:");
     emailField = new wxTextCtrl(panel, wxID_ANY);
 
+    auto submitButton = new wxButton(panel, wxID_ANY, "Submit");
+
     std::vector<wxWindow *> formItems{
         nameLabel,
         userNameField,
         emailLabel,
-        emailField};
+        emailField,
+        submitButton};
 
     for (auto item : formItems)
     {
@@ -92,28 +99,16 @@ void MyFrame::SetupForm()
 
     SetSizerAndFit(sizer);
 
-    userNameField->Bind(wxEVT_TEXT, [this](wxCommandEvent &e)
-                        { std::cout << "[wxEVT_TEXT] Name Text: " << e.GetString() << std::endl; });
+    submitButton->Bind(wxEVT_BUTTON, &MyFrame::OnSubmit, this);
 
-    userNameField->Bind(wxEVT_CHAR, [this](wxKeyEvent &e)
-                        {
-                            int code = e.GetKeyCode();
-                            bool isLeft = e.GetKeyCode() == WXK_LEFT;
-                            bool hasAlt = e.AltDown();
+    userNameField->SetValidator(wxTextValidator(wxFILTER_NONE, &name));
 
-                            std::cout << "[wxEVT_CHAR] Code = " << code << ". Alt? " << hasAlt << ", Left? " << isLeft
-                                      << ". Unicode : 0x" << std::hex << e.GetUnicodeKey() << std::dec << std::endl;
+    name = "John Doe";
+    TransferDataToWindow();
+}
 
-                            e.Skip(); });
-
-    userNameField->Bind(wxEVT_KEY_DOWN, [this](wxKeyEvent &e)
-                        {
-                            int code = e.GetKeyCode();
-                            bool isLeft = e.GetKeyCode() == WXK_LEFT;
-                            bool hasAlt = e.AltDown();
-
-                            std::cout << "[wxEVT_KEY_DOWN] Code = " << code << ". Alt? " << hasAlt << ", Left? " << isLeft
-                                      << ". Unicode : 0x" << std::hex << e.GetUnicodeKey() << std::dec << std::endl;
-
-                            e.Skip(); });
+void MyFrame::OnSubmit(wxCommandEvent &e)
+{
+    TransferDataFromWindow();
+    std::cout << name << std::endl;
 }

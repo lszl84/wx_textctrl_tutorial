@@ -2,6 +2,9 @@
 #include <vector>
 #include <iostream>
 
+#include "passwordstrengthvalidator.h"
+#include "passwordmatchvalidator.h"
+
 class MyApp : public wxApp
 {
 public:
@@ -132,8 +135,8 @@ void MyFrame::SetupForm()
 
     userNameField->SetValidator(wxTextValidator(wxFILTER_NONE, &name));
     emailField->SetValidator(wxTextValidator(wxFILTER_NONE, &email));
-    passwordField->SetValidator(wxTextValidator(wxFILTER_NONE, &password));
-    passwordRepeatField->SetValidator(wxTextValidator(wxFILTER_NONE));
+    passwordField->SetValidator(PasswordStrengthValidator(passwordHint, &password));
+    passwordRepeatField->SetValidator(PasswordMatchValidator(passwordRepeatHint, passwordField));
     notesField->SetValidator(wxTextValidator(wxFILTER_NONE, &notes));
 
     name = "John Doe";

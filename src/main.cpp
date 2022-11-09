@@ -141,6 +141,14 @@ void MyFrame::SetupForm()
 
     name = "John Doe";
     TransferDataToWindow();
+
+    Bind(
+        wxEVT_TEXT, [this](wxCommandEvent &e)
+        {
+            PasswordMatchValidator *matcher = dynamic_cast<PasswordMatchValidator *>(this->passwordRepeatField->GetValidator());
+            matcher->UpdateValidationLabel();
+        },
+        passwordField->GetId());
 }
 
 void MyFrame::OnSubmit(wxCommandEvent &e)

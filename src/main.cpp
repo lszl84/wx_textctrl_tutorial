@@ -27,6 +27,8 @@ private:
     wxString name, email, password, notes;
 
     void OnSubmit(wxCommandEvent &);
+
+    bool ProcessEvent(wxEvent &event) override;
 };
 
 wxIMPLEMENT_APP(MyApp);
@@ -146,8 +148,7 @@ void MyFrame::SetupForm()
         wxEVT_TEXT, [this](wxCommandEvent &e)
         {
             PasswordMatchValidator *matcher = dynamic_cast<PasswordMatchValidator *>(this->passwordRepeatField->GetValidator());
-            matcher->UpdateValidationLabel();
-        },
+            matcher->UpdateValidationLabel(); },
         passwordField->GetId());
 }
 
@@ -170,4 +171,27 @@ void MyFrame::OnSubmit(wxCommandEvent &e)
                   << password << std::endl
                   << notes << std::endl;
     }
+}
+
+bool MyFrame::ProcessEvent(wxEvent &event)
+{
+    static wxEvent *lastEvent = nullptr;
+
+    if (event.GetEventType() == wxEVT_MENU || event.GetEventType() == wxEVT_UPDATE_UI)
+    {
+        if (lastEvent != &event)
+        {
+            lastEvent = &event;
+            auto focusedChild = wxFindFocusDescendant(this);
+            if (focusedChild && focusedChild->GetEventHandler()->ProcessEvent(event))
+            {
+                lastEvent = nullptr;
+                return true;
+            }
+
+            lastEvent = nullptr;
+        }
+    }
+
+    return wxFrame::ProcessEvent(event);
 }

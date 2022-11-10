@@ -6,8 +6,10 @@
 class PasswordStrengthValidator : public ValidatorWithLabelOut
 {
 public:
-    PasswordStrengthValidator(wxStaticText *msgLabel, wxString *val = nullptr) : ValidatorWithLabelOut(msgLabel, val) {}
-    PasswordStrengthValidator(const PasswordStrengthValidator &validator) : ValidatorWithLabelOut(validator) {}
+    PasswordStrengthValidator(wxStaticText *msgLabel, wxString *val = nullptr)
+        : ValidatorWithLabelOut(msgLabel, val) {}
+    PasswordStrengthValidator(const PasswordStrengthValidator &validator)
+        : ValidatorWithLabelOut(validator) {}
 
     virtual wxObject *Clone() const override { return new PasswordStrengthValidator(*this); }
 

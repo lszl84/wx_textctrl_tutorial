@@ -6,9 +6,10 @@
 class PasswordMatchValidator : public ValidatorWithLabelOut
 {
 public:
-    PasswordMatchValidator(wxStaticText *msgLabel, wxTextCtrl *matchSourceCtrl) : ValidatorWithLabelOut(msgLabel), sourceCtrl(matchSourceCtrl) {}
-    PasswordMatchValidator(const PasswordMatchValidator &validator) : ValidatorWithLabelOut(validator) { sourceCtrl = validator.sourceCtrl; }
-    virtual ~PasswordMatchValidator() {}
+    PasswordMatchValidator(wxStaticText *msgLabel, wxTextCtrl *matchSourceCtrl)
+        : ValidatorWithLabelOut(msgLabel), sourceCtrl(matchSourceCtrl) {}
+    PasswordMatchValidator(const PasswordMatchValidator &validator)
+        : ValidatorWithLabelOut(validator) { sourceCtrl = validator.sourceCtrl; }
 
     virtual wxObject *Clone() const override { return new PasswordMatchValidator(*this); }
 

@@ -12,6 +12,7 @@ public:
     }
 
     ValidatorWithLabelOut(const ValidatorWithLabelOut &validator)
+        : wxValidator(validator)
     {
         value = validator.value;
         validationMsgLabel = validator.validationMsgLabel;
@@ -56,7 +57,8 @@ public:
         auto [valid, text] = CheckValidity(GetTextEntry()->GetValue());
 
         validationMsgLabel->SetLabel(text);
-        validationMsgLabel->SetForegroundColour(valid ? wxColor(100, 200, 100) : wxColor(200, 100, 100));
+        validationMsgLabel->SetForegroundColour(
+            valid ? wxColor(100, 200, 100) : wxColor(200, 100, 100));
 
         validationMsgLabel->Refresh(); // needed for Windows to update the color
     }

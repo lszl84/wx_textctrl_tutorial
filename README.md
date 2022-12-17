@@ -1,5 +1,7 @@
 # wx_textctrl_tutorial
 
-How to use the wxTextCtrl and wxValidator in wxWidgets.
+How to use the wxTextCtrl and wxValidator in wxWidgets - a [tutorial](https://www.youtube.com/watch?v=5R1V3a7ib5Q).
 
-Check this playlist for the full wxWidgets course: https://www.youtube.com/playlist?list=PL0qQTroQZs5vVmTuBew-nTx9DIu6rRl2c
+---
+Check out the blog for more! [www.justdevtutorials.com](https://www.justdevtutorials.com)
+---
